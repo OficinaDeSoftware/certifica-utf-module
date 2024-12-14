@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.module</groupId>
+    <artifactId>certifica-utf-module</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>Projeto Agrupador</name>
+    <description>Projeto que agrupa os modulos</description>
+
+    <modules>
+        <module>certifica-utf-auth</module>
+        <module>certifica-utf-back-end</module>
+        <module>certifica-utf-gateway</module>
+        <module>certifica-utf-service-registry</module>
+        <module>email-sender</module>
+        <module>uploader</module>
+    </modules>
+</project>
