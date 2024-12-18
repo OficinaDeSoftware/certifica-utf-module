@@ -1,0 +1,104 @@
+version: "3.8"
+services:
+  certifica-utf-service-registry:
+    build:
+      context: https://github.com/OficinaDeSoftware/certifica-utf-service-registry.git
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-network
+
+  certifica-utf-gateway:
+    build:
+      context: https://github.com/OficinaDeSoftware/certifica-utf-gateway.git
+      dockerfile: Dockerfile
+    depends_on:
+      - certifica-utf-service-registry
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_SERVER_URL=http://certifica-utf-service-registry:8761/eureka/
+    networks:
+      - microservices-network
+
+  certifica-utf-auth:
+    build:
+      context: https://github.com/OficinaDeSoftware/certifica-utf-auth.git
+      dockerfile: Dockerfile
+    depends_on:
+      - certifica-utf-service-registry
+      - certifica-utf-gateway
+    ports:
+      - "5050:5050"
+    environment:
+      - BROKER_EMAIL=${BROKER_EMAIL}
+      - GOOGLE_CLIENTE_ID=${GOOGLE_CLIENTE_ID}
+      - MONGO_URL=${MONGO_URL}
+      - TOKEN_SECURITY_JWT=${TOKEN_SECURITY_JWT}
+      - UTFPR_BASEURL=${UTFPR_BASEURL}
+      - EUREKA_SERVER_URL=${EUREKA_SERVER_URL}
+    networks:
+      - microservices-network
+
+  certifica-utf-back-end:
+    build:
+      context: https://github.com/OficinaDeSoftware/certifica-utf-back-end.git
+      dockerfile: Dockerfile
+    depends_on:
+      - certifica-utf-service-registry
+      - certifica-utf-gateway
+      - certifica-utf-auth
+    ports:
+      - "5051:5051"
+    environment:
+      - BROKER_EMAIL=${BROKER_EMAIL}
+      - MONGO_URL=${MONGO_URL}
+      - RABITMQ_ADDRESS=${RABITMQ_ADDRESS}
+      - EUREKA_SERVER_URL=${EUREKA_SERVER_URL}
+    networks:
+      - microservices-network
+
+  email-sender:
+    build:
+      context: https://github.com/OficinaDeSoftware/email-sender.git
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-17
+      - certifica-utf-service-registry
+      - certifica-utf-gateway
+      - certifica-utf-auth
+    ports:
+      - "5054:5054"
+    environment:
+      - BROKER_EMAIL=${BROKER_EMAIL}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - RABITMQ_ADDRESS={RABITMQ_ADDRESS}
+      - EUREKA_SERVER_URL=${EUREKA_SERVER_URL}
+    networks:
+      - microservices-network
+
+  postgres-17:
+    image: postgres:17
+    container_name: postgres-17
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ms-email
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+
+volumes:
+  postgres_data:
+
+networks:
+  microservices-network:
+    driver: bridge
