@@ -4,7 +4,6 @@ services:
     env: docker
     repo: https://github.com/OficinaDeSoftware/certifica-utf-service-registry.git
     branch: main
-    healthCheckPath: /
     plan: free
 
   - name: certifica-utf-gateway
@@ -12,6 +11,7 @@ services:
     env: docker
     repo: https://github.com/OficinaDeSoftware/certifica-utf-gateway.git
     branch: main
+    healthCheckPath: /
     envVars:
       - key: EUREKA_SERVER_URL
         value: ${EUREKA_SERVER_URL}
