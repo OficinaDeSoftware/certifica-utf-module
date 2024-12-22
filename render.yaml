@@ -4,7 +4,6 @@ services:
     env: docker
     repo: https://github.com/OficinaDeSoftware/certifica-utf-service-registry.git
     branch: main
-    plan: free
 
   - name: certifica-utf-gateway
     type: web
@@ -35,7 +34,6 @@ services:
         value: ${UTFPR_BASEURL}
       - key: EUREKA_SERVER_URL
         value: ${EUREKA_SERVER_URL}
-    plan: free
 
   - name: certifica-utf-back-end
     type: pserv
@@ -51,4 +49,3 @@ services:
         value: ${RABITMQ_ADDRESS}
       - key: EUREKA_SERVER_URL
         value: ${EUREKA_SERVER_URL}
-    plan: free
