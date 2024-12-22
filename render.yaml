@@ -41,7 +41,7 @@ services:
     type: web
     env: docker
     repo: https://github.com/OficinaDeSoftware/certifica-utf-back-end.git
-    main: main
+    branch: main
     envVars:
       - key: BROKER_EMAIL
         value: ${BROKER_EMAIL}
