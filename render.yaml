@@ -1,6 +1,6 @@
 services:
   - name: certifica-utf-service-registry
-    type: web
+    type: pserv
     env: docker
     repo: https://github.com/OficinaDeSoftware/certifica-utf-service-registry.git
     branch: main
@@ -18,7 +18,7 @@ services:
     plan: free
 
   - name: certifica-utf-auth
-    type: web
+    type: pserv
     env: docker
     repo: https://github.com/OficinaDeSoftware/certifica-utf-auth.git
     branch: master
@@ -38,7 +38,7 @@ services:
     plan: free
 
   - name: certifica-utf-back-end
-    type: web
+    type: pserv
     env: docker
     repo: https://github.com/OficinaDeSoftware/certifica-utf-back-end.git
     branch: main
