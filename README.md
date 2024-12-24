@@ -35,5 +35,7 @@ ele utiliza os projetos locais para execução dentro dos containers.
 ```
 docker-compose up
 ```
+### Links uteis
 
+`Para mais detalhes da arquitetura visite`: https://github.com/OficinaDeSoftware/certifica-utf-architecture
 
