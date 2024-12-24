@@ -2,7 +2,7 @@ version: "3.8"
 services:
   certifica-utf-service-registry:
     build:
-      context: https://github.com/OficinaDeSoftware/certifica-utf-service-registry.git
+      context: ./certifica-utf-service-registry/
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
@@ -11,7 +11,7 @@ services:
 
   certifica-utf-gateway:
     build:
-      context: https://github.com/OficinaDeSoftware/certifica-utf-gateway.git
+      context: ./certifica-utf-gateway/
       dockerfile: Dockerfile
     depends_on:
       - certifica-utf-service-registry
@@ -24,7 +24,7 @@ services:
 
   certifica-utf-auth:
     build:
-      context: https://github.com/OficinaDeSoftware/certifica-utf-auth.git
+      context: ./certifica-utf-auth/
       dockerfile: Dockerfile
     depends_on:
       - certifica-utf-service-registry
@@ -43,7 +43,7 @@ services:
 
   certifica-utf-back-end:
     build:
-      context: https://github.com/OficinaDeSoftware/certifica-utf-back-end.git
+      context: ./certifica-utf-back-end/
       dockerfile: Dockerfile
     depends_on:
       - certifica-utf-service-registry
@@ -61,7 +61,7 @@ services:
 
   email-sender:
     build:
-      context: https://github.com/OficinaDeSoftware/email-sender.git
+      context: ./email-sender/
       dockerfile: Dockerfile
     depends_on:
       - postgres-17
@@ -79,6 +79,23 @@ services:
       - MAIL_USERNAME=${MAIL_USERNAME}
       - RABITMQ_ADDRESS={RABITMQ_ADDRESS}
       - EUREKA_SERVER_URL=${EUREKA_SERVER_URL}
+    networks:
+      - microservices-network
+
+  uploader-firebase:
+    build:
+      context: ./uploader/
+      dockerfile: Dockerfile
+    depends_on:
+      - certifica-utf-service-registry
+      - certifica-utf-gateway
+      - certifica-utf-auth
+    ports:
+      - "5055:5055"
+    environment:
+      - FIREBASE_BUCKET=${FIREBASE_BUCKET}
+      - FIREBASE_DOWNLOAD_URL=${FIREBASE_DOWNLOAD_URL}
+      - FIREBASE_PRIVATE_KEY_PATH=${FIREBASE_PRIVATE_KEY_PATH}
     networks:
       - microservices-network
 
