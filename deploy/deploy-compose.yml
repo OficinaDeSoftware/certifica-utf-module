@@ -2,7 +2,7 @@ version: "3.8"
 services:
   certifica-utf-service-registry:
     build:
-      context: ./certifica-utf-service-registry/
+      context: https://github.com/OficinaDeSoftware/certifica-utf-service-registry.git
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
@@ -11,20 +11,20 @@ services:
 
   certifica-utf-gateway:
     build:
-      context: ./certifica-utf-gateway/
+      context: https://github.com/OficinaDeSoftware/certifica-utf-gateway.git
       dockerfile: Dockerfile
     depends_on:
       - certifica-utf-service-registry
     ports:
       - "8080:8080"
     environment:
-      - EUREKA_SERVER_URL=${EUREKA_SERVER_URL}
+      - EUREKA_SERVER_URL=http://certifica-utf-service-registry:8761/eureka/
     networks:
       - microservices-network
 
   certifica-utf-auth:
     build:
-      context: ./certifica-utf-auth/
+      context: https://github.com/OficinaDeSoftware/certifica-utf-auth.git
       dockerfile: Dockerfile
     depends_on:
       - certifica-utf-service-registry
@@ -43,7 +43,7 @@ services:
 
   certifica-utf-back-end:
     build:
-      context: ./certifica-utf-back-end/
+      context: https://github.com/OficinaDeSoftware/certifica-utf-back-end.git
       dockerfile: Dockerfile
     depends_on:
       - certifica-utf-service-registry
@@ -61,7 +61,7 @@ services:
 
   email-sender:
     build:
-      context: ./email-sender/
+      context: https://github.com/OficinaDeSoftware/email-sender.git
       dockerfile: Dockerfile
     depends_on:
       - postgres-17
@@ -84,7 +84,7 @@ services:
 
   uploader-firebase:
     build:
-      context: ./uploader/
+      context: https://github.com/OficinaDeSoftware/uploader.git
       dockerfile: Dockerfile
     depends_on:
       - certifica-utf-service-registry
