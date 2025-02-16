@@ -32,6 +32,7 @@ services:
     ports:
       - "5050:5050"
     environment:
+      - RABITMQ_ADDRESS=${RABITMQ_ADDRESS}
       - BROKER_EMAIL=${BROKER_EMAIL}
       - GOOGLE_CLIENTE_ID=${GOOGLE_CLIENTE_ID}
       - MONGO_URL=${MONGO_URL}
