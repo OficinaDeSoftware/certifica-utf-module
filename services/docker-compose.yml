@@ -78,7 +78,7 @@ services:
       - DB_USERNAME=${DB_USERNAME}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - MAIL_USERNAME=${MAIL_USERNAME}
-      - RABITMQ_ADDRESS={RABITMQ_ADDRESS}
+      - RABITMQ_ADDRESS=${RABITMQ_ADDRESS}
       - EUREKA_SERVER_URL=${EUREKA_SERVER_URL}
     networks:
       - microservices-network
